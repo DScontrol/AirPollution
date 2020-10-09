@@ -8,6 +8,7 @@
 
 complete <- function(directory, id=1:332){
   
+  
   n<-c(1:length(id))
   cont<-1
   # leemos los archivos
@@ -28,8 +29,15 @@ complete <- function(directory, id=1:332){
     n[cont]<-nrow(dataNotNA)
     cont<-cont+1
     
+    
+    
   }
-  n
+  #creamos el dataframe
+  id <- id
+  nobs <- n
+  
+  df <- data.frame(id, nobs)
+  df
   
 }
 
