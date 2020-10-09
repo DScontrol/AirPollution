@@ -10,8 +10,7 @@
 #pollutant across all of the monitors, ignoring any missing values coded as NA. 
 #A prototype of the function is as follows
 
-print(R.version.string)
-
+#print(R.version.string)
 
 pollutantmean<-function(directory,pollutant, id=1:332) {
   
@@ -32,22 +31,32 @@ pollutantmean<-function(directory,pollutant, id=1:332) {
           print(filepath)      
           #guardamos el contenido del fichero
           dataaux<-read.csv(filepath, header=TRUE, sep=",")
-          if (cont==0)  {Alldata<-dataaux}
+          str(dataaux)
+          if (cont==0)  {Alldata<-dataaux
+                          rm(dataaux)
+                         }
             else { Alldata<- merge.data.frame(Alldata,dataaux, all=TRUE)
-            }
+                   rm(dataaux)
+                  }
           cont<-cont+1
           str(Alldata)
      }
   
   #Una vez almacenados los ficheros calculamos la media del atriubuto solicitado
-  AlldataNA<-Alldata[!is.na(Alldata$sulfate) & !is.na(Alldata$nitrate), ]
-  #str(AlldataNA)
-  if(identical(pollutant,"nitrate")) M<-mean(AlldataNA$nitrate)
-  if(identical(pollutant,"sulfate")) M<-mean(AlldataNA$sulfate)
+  if(identical(pollutant,"nitrate")) {
+                                       AlldataNA<-Alldata[!is.na(Alldata$nitrate), ]
+                                       str(AlldataNA)
+                                       M<-mean(AlldataNA$nitrate)
+  }
+  if(identical(pollutant,"sulfate")) {
+                                      AlldataNA<-Alldata[!is.na(Alldata$sulfate), ]
+                                      str(AlldataNA)
+                                      M<-mean(AlldataNA$sulfate)
+    }
   M
-  
 }
-
-
-pollutantmean("specdata","nitrate",23)
+#source("pollutantmean.R")
+#pollutantmean("specdata", "sulfate", 1:10)
+#pollutantmean("specdata","nitrate",70:72) no sale igual!!!!
+#pollutantmean("specdata","nitrate", 23)
 
